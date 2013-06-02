@@ -1,27 +1,26 @@
 package edu.isi.bmkeg.digitalLibraryModule
 {
+	import com.devaldi.controls.flexpaper.FlexPaperViewer;
+	
+	import edu.isi.bmkeg.digitalLibraryModule.controller.*;
+	import edu.isi.bmkeg.digitalLibraryModule.events.*;
+	import edu.isi.bmkeg.digitalLibraryModule.model.*;
+	import edu.isi.bmkeg.digitalLibraryModule.view.*;
+	
+	import edu.isi.bmkeg.ftd.events.*;
+	import edu.isi.bmkeg.ftd.services.IExtendedFtdService;
+	import edu.isi.bmkeg.ftd.services.impl.ExtendedFtdServiceImpl;
+	import edu.isi.bmkeg.ftd.services.serverInteraction.IExtendedFtdServer;
+	import edu.isi.bmkeg.ftd.services.serverInteraction.impl.ExtendedFtdServerImpl;
+	
 	import edu.isi.bmkeg.ftd.rl.events.*;
 	import edu.isi.bmkeg.ftd.rl.services.IFtdService;
 	import edu.isi.bmkeg.ftd.rl.services.impl.FtdServiceImpl;
 	import edu.isi.bmkeg.ftd.rl.services.serverInteraction.IFtdServer;
 	import edu.isi.bmkeg.ftd.rl.services.serverInteraction.impl.FtdServerImpl;
-	
-	import edu.isi.bmkeg.digitalLibrary.rl.events.*;
-	import edu.isi.bmkeg.digitalLibrary.rl.services.IDigitalLibraryService;
-	import edu.isi.bmkeg.digitalLibrary.rl.services.impl.DigitalLibraryServiceImpl;
-	import edu.isi.bmkeg.digitalLibrary.rl.services.serverInteraction.IDigitalLibraryServer;
-	import edu.isi.bmkeg.digitalLibrary.rl.services.serverInteraction.impl.DigitalLibraryServerImpl;
-	
-	import edu.isi.bmkeg.pagedList.model.*;
 	import edu.isi.bmkeg.pagedList.events.*;
+	import edu.isi.bmkeg.pagedList.model.*;
 	
-	import edu.isi.bmkeg.digitalLibraryModule.events.*;
-	import edu.isi.bmkeg.digitalLibraryModule.model.*;
-	import edu.isi.bmkeg.digitalLibraryModule.controller.*;
-	import edu.isi.bmkeg.digitalLibraryModule.view.*;
- 	
-	import com.devaldi.controls.flexpaper.FlexPaperViewer;
-
 	import flash.display.DisplayObjectContainer;
 	
 	import org.robotlegs.core.IInjector;
@@ -38,46 +37,47 @@ package edu.isi.bmkeg.digitalLibraryModule
 		override public function startup():void
 		{		
 			
-			mediatorMap.mapView(CorpusControl, CorpusControlMediator);
-			mediatorMap.mapView(ArticleCitationList, ArticleCitationListMediator);
-			mediatorMap.mapView(ArticleCitationView, ArticleCitationViewMediator);
+			mediatorMap.mapView(FullTextDocumentList, FullTextDocumentListMediator);
+			mediatorMap.mapView(FTDTextView, FTDTextViewMediator);
+			mediatorMap.mapView(FTDBlocksView, FTDBlocksViewMediator);
 			mediatorMap.mapView(FlexPaperViewer, FlexPaperMediator);
+			mediatorMap.mapView(RulesEditor, RulesEditorMediator);
 			
 			injector.mapSingleton(DigitalLibraryModel);
 			injector.mapSingleton(PagedListModel);
-			injector.mapSingletonOf(IDigitalLibraryService, DigitalLibraryServiceImpl);
-			injector.mapSingletonOf(IDigitalLibraryServer, DigitalLibraryServerImpl);
 			injector.mapSingletonOf(IFtdServer, FtdServerImpl);
 			injector.mapSingletonOf(IFtdService, FtdServiceImpl);
+			injector.mapSingletonOf(IExtendedFtdServer, ExtendedFtdServerImpl);
+			injector.mapSingletonOf(IExtendedFtdService, ExtendedFtdServiceImpl);
 			
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			// list the corpora on the server
-			commandMap.mapEvent(ListCorpusEvent.LIST_CORPUS, ListCorpusCommand);
-			commandMap.mapEvent(ListCorpusResultEvent.LIST_CORPUS_RESULT, ListCorpusResultCommand);
-
-			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			// load the target corpus
-			commandMap.mapEvent(FindCorpusByIdEvent.FIND_CORPUS_BY_ID, FindCorpusByIdCommand);
-			commandMap.mapEvent(FindCorpusByIdResultEvent.FIND_CORPUSBY_ID_RESULT, FindCorpusByIdResultCommand);
-			
-			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			// Run a paged list query for TriageDocument objects
-			// associated with a given TriageCorpus. 
-			commandMap.mapEvent(ListArticleCitationPagedEvent.LIST_ARTICLECITATION_PAGED, ListArticleCitationPagedCommand);
-			commandMap.mapEvent(ListArticleCitationPagedResultEvent.LIST_ARTICLECITATION_PAGED_RESULT, ListArticleCitationPagedResultCommand);
-			commandMap.mapEvent(CountPagedListLengthEvent.COUNT_PAGED_LIST_LENGTH, CountArticleDocumentCommand);
-			commandMap.mapEvent(CountArticleCitationResultEvent.COUNT_ARTICLECITATION_RESULT, CountArticleDocumentResultCommand);
+			// Run a paged list query for FullTextDocument objects
+			// associated with a given Corpus (if that is present). 
+			commandMap.mapEvent(ListFTDPagedEvent.LIST_FTD_PAGED, ListFTDPagedCommand);
+			commandMap.mapEvent(ListFTDPagedResultEvent.LIST_FTD_PAGED_RESULT, ListFTDPagedResultCommand);
+			//commandMap.mapEvent(CountPagedListLengthEvent.COUNT_PAGED_LIST_LENGTH, CountFullTextDocumentCommand);
+			commandMap.mapEvent(CountFTDEvent.COUNT_FTD, CountFTDCommand);
+			commandMap.mapEvent(CountFTDResultEvent.COUNT_FTD_RESULT, CountFTDResultCommand);
 			commandMap.mapEvent(PagedListRetrievePageEvent.PAGEDLIST_RETRIEVE_PAGE, PagedListRetrievePageCommand);
 			
-			
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			// Change selection of the triagedDocument List control
-			// Run a query for the Triaged document. 
-			commandMap.mapEvent(FindArticleCitationByIdResultEvent.FIND_ARTICLECITATIONBY_ID_RESULT, FindArticleDocumentByIdResultCommand);
-			commandMap.mapEvent(ListArticleDocumentEvent.LIST_ARTICLEDOCUMENT, ListArticleDocumentCommand);
+			// Change selection of the FTD List control
+			// Run a query for the document. 
+			commandMap.mapEvent(FindFTDByIdEvent.FIND_FTD_BY_ID, FindFTDByIdCommand);
+			commandMap.mapEvent(FindFTDByIdResultEvent.FIND_FTDBY_ID_RESULT, FindFTDByIdResultCommand);
 
-			commandMap.mapEvent(ClearCorpusEvent.CLEAR_CORPUS, ClearCorpusCommand);
+			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			// List the FTD Rule Sets
+			commandMap.mapEvent(ListFTDRuleSetEvent.LIST_FTDRULESET, ListFTDRuleSetCommand);
+			commandMap.mapEvent(ListFTDRuleSetResultEvent.LIST_FTDRULESET_RESULT, ListFTDRuleSetResultCommand);
 
+			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			// Load an FTD Rule Set
+			commandMap.mapEvent(FindFTDRuleSetByIdEvent.FIND_FTDRULESET_BY_ID, FindFTDRuleSetByIdCommand);
+			commandMap.mapEvent(FindFTDRuleSetByIdResultEvent.FIND_FTDRULESETBY_ID_RESULT, FindFTDRuleSetByIdResultCommand);
+			commandMap.mapEvent(RunRuleSetEvent.RUN_RULE_SET, RunRuleSetCommand);
+//			commandMap.mapEvent(UploadRuleSetEvent.UPLOAD_RULE_SET, UploadRuleSetCommand);			
+			
 		}
 		
 		override public function dispose():void

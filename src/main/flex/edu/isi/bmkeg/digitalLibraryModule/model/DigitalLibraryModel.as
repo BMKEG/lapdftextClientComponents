@@ -1,9 +1,8 @@
 package edu.isi.bmkeg.digitalLibraryModule.model
 {
 	
-	import edu.isi.bmkeg.digitalLibrary.model.citations.*;
-	import edu.isi.bmkeg.digitalLibrary.model.qo.citations.*;
 	import edu.isi.bmkeg.ftd.model.FTD;
+	import edu.isi.bmkeg.ftd.model.FTDRuleSet;
 	import edu.isi.bmkeg.ftd.model.qo.FTD_qo;
 	import edu.isi.bmkeg.vpdmf.model.instances.LightViewInstance;
 	
@@ -19,21 +18,17 @@ package edu.isi.bmkeg.digitalLibraryModule.model
 	{
 		public var listPageSize:int = 200;
 		
-		public var corpora:ArrayCollection = new ArrayCollection();
-
-		public var currentCorpus:Corpus;
-
-		public var articles:ArrayCollection = new ArrayCollection();
+		public var ftds:ArrayCollection = new ArrayCollection();
 				
-		public var currentArticle:ArticleCitation;
+		public var currentFtd:FTD;
 
-		public var queryArticle:ArticleCitation_qo;
-
-		public var documents:ArrayCollection = new ArrayCollection();
-
-		public var currentDocument:FTD;
+		public var queryFtd:FTD_qo;
 
 		public var nDoc:Number;
+		
+		public var ruleSetList:ArrayCollection = new ArrayCollection();
+		
+		public var ruleSet:FTDRuleSet;
 		
 	}
 

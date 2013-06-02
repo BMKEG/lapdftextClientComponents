@@ -1,8 +1,9 @@
 package edu.isi.bmkeg.digitalLibraryModule.controller
 {	
-	import edu.isi.bmkeg.pagedList.events.*;
-	import edu.isi.bmkeg.ftd.rl.events.*;
 	import edu.isi.bmkeg.digitalLibraryModule.model.DigitalLibraryModel;
+	
+	import edu.isi.bmkeg.ftd.rl.events.*;
+	import edu.isi.bmkeg.vpdmf.model.instances.LightViewInstance;
 	
 	import flash.events.Event;
 	
@@ -10,23 +11,20 @@ package edu.isi.bmkeg.digitalLibraryModule.controller
 	
 	import org.robotlegs.mvcs.Command;
 	
-	public class PagedListRetrievePageCommand extends Command
+	public class ListFTDRuleSetResultCommand extends Command
 	{
-	
+		
 		[Inject]
-		public var event:PagedListRetrievePageEvent;
-
+		public var event:ListFTDRuleSetResultEvent;
+		
 		[Inject]
 		public var model:DigitalLibraryModel;
-				
+	
 		override public function execute():void
 		{
-			this.dispatch(
-				new ListFTDPagedEvent(
-					model.queryFtd, event.offset, event.count
-				)
-			);
 			
+			model.ruleSetList = event.list;
+						
 		}
 		
 	}

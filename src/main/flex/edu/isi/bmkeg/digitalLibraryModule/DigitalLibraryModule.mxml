@@ -35,7 +35,10 @@
 		import mx.rpc.events.FaultEvent;
 		
 		protected var context:IModuleContext;
-		
+
+		[Bindable]
+		private var ruleBoxHeight:int;
+
 		public function displayServiceFailureError(faultEvent:FaultEvent):void
 		{
 			Alert.show(faultEvent.toString(),"Service Error");
@@ -80,30 +83,30 @@
     
 	</fx:Script>
 	<mx:HDividedBox width="100%" height="100%">
-		<s:Group width="200" height="100%">
-			<s:layout>
-				<s:BasicLayout/>
-			</s:layout>
-			<view:CorpusControl id="corpusControl" left="5" right="0" top="10" />
-		</s:Group>
 		<s:Group width="50%" height="100%">
 			<s:layout>
 				<s:BasicLayout/>
 			</s:layout>
-			<view:ArticleCitationList left="5" right="0" top="10" bottom="10" />
+			<view:FullTextDocumentList left="5" right="0" top="10" bottom="10" />
 		</s:Group>
 		<mx:TabNavigator width="50%" height="100%" >
-			<s:NavigatorContent label="Citation" >
+			<s:NavigatorContent label="Content" >
 				<s:Group width="100%" height="100%" >
 					<s:layout>
-						<s:BasicLayout/>
+						<s:VerticalLayout/>
 					</s:layout>
-					<s:Scroller left="5" right="10" top="36" bottom="10">
-						<view:ArticleCitationView width="100%" height="100%"/>									
-					</s:Scroller>
+					<view:RulesEditor id="rulesEditor" width="100%" height="130" />	
+					<mx:TabNavigator width="100%" height="100%" >
+						<s:NavigatorContent label="Text" >
+							<view:FTDTextView  width="100%" height="100%"/>									
+						</s:NavigatorContent>
+						<s:NavigatorContent label="Blocks" >
+							<view:FTDBlocksView  width="100%" height="100%"/>																
+						</s:NavigatorContent>					
+					</mx:TabNavigator>
 				</s:Group>									
 			</s:NavigatorContent>
-			<s:NavigatorContent label="FlexPaper" >
+			<s:NavigatorContent label="PDF" >
 				<fp:FlexPaperViewer id="flexPaperViewer" width="100%" height="100%"/>
 			</s:NavigatorContent>
 		</mx:TabNavigator>
