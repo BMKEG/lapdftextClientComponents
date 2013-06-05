@@ -13,7 +13,7 @@
 	<fx:Script>
 		<![CDATA[
 			
-			import edu.isi.bmkeg.digitalLibraryModule.events.*;
+			import edu.isi.bmkeg.lapdftextModule.events.*;
 
 			import edu.isi.bmkeg.ftd.model.FTD;
 			import edu.isi.bmkeg.ftd.rl.events.*;
@@ -98,7 +98,7 @@
 				
 				if( column.columnIndex == 1 ) {
 					returnVal = item.FTD_1;
-					var lastIndex = returnVal.lastIndexOf("/");
+					var lastIndex:int = returnVal.lastIndexOf("/");
 					returnVal = returnVal.substring(lastIndex + 1, returnVal.length);
 				} else {
 					returnVal = item.FTD_2;

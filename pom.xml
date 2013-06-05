@@ -7,9 +7,9 @@
 		<version>1.0-SNAPSHOT</version> </parent> -->
 
 	<groupId>edu.isi.bmkeg</groupId>
-	<artifactId>digitalLibraryClientComponents</artifactId>
-	<version>0.1.2-SNAPSHOT</version>
-	<name>digitalLibraryClientComponents</name>
+	<artifactId>lapdftextClientComponents</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>LAPDFText Client Components</name>
 	<packaging>swc</packaging>
 	
 	<properties>
