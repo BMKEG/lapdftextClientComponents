@@ -58,12 +58,13 @@ package edu.isi.bmkeg.lapdftextModule.view
 			if (td != null) {
 
 				var a:FTD = td;
-				
-				view.imageList = new ArrayCollection();
+
+				// TODO: Fix this.				
+/*				view.imageList = new ArrayCollection();
 				for( var i:int=0; i<a.pages.length; i++) {
 					var pg:FTDPageImage = a.pages.getItemAt(i) as FTDPageImage;
 					view.imageList.addItem( pg.pageImage );
-				}
+				}*/
 				
 			}
 								
