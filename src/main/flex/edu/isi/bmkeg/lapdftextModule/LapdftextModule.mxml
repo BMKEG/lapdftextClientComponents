@@ -8,6 +8,7 @@
 		   xmlns:s="library://ns.adobe.com/flex/spark" 
 		   implements="org.robotlegs.utilities.modular.core.IModule"
 		   xmlns:view="edu.isi.bmkeg.lapdftextModule.view.*"
+		   xmlns:digLibView="edu.isi.bmkeg.digitalLibraryModule.view.*"
 		   xmlns:fp="com.devaldi.controls.flexpaper.*">
 	
 	<fx:Declarations>
@@ -82,33 +83,16 @@
     
 	</fx:Script>
 	<mx:HDividedBox width="100%" height="100%">
-		<s:Group width="50%" height="100%">
+		<view:JournalEpochControl width="300" height="100%" id="corpusControl" left="5" right="0" top="10" />
+		<digLibView:ArticleList id="extractCorpusList" width="100%" height="100%" />
+		<s:Group width="100%" height="100%" >
 			<s:layout>
-				<s:BasicLayout/>
+				<s:VerticalLayout/>
 			</s:layout>
-			<view:FullTextDocumentList left="5" right="0" top="10" bottom="10" />
+			<s:Label top="10" fontSize="16" fontWeight="bold"
+					 horizontalCenter="0" text="Example Extraction"/>
+			<view:LapdftextBlockView width="100%" height="100%"/>									
 		</s:Group>
-		<mx:TabNavigator width="50%" height="100%" >
-			<s:NavigatorContent label="Content" >
-				<s:Group width="100%" height="100%" >
-					<s:layout>
-						<s:VerticalLayout/>
-					</s:layout>
-					<view:RulesEditor id="rulesEditor" width="100%" height="130" />	
-					<mx:TabNavigator width="100%" height="100%" >
-						<s:NavigatorContent label="Text" >
-							<view:FTDTextView  width="100%" height="100%"/>									
-						</s:NavigatorContent>
-						<s:NavigatorContent label="Blocks" >
-							<view:FTDBlocksView  width="100%" height="100%"/>																
-						</s:NavigatorContent>					
-					</mx:TabNavigator>
-				</s:Group>									
-			</s:NavigatorContent>
-			<s:NavigatorContent label="PDF" >
-				<fp:FlexPaperViewer id="flexPaperViewer" width="100%" height="100%"/>
-			</s:NavigatorContent>
-		</mx:TabNavigator>
 	</mx:HDividedBox>
 	
 </mx:Module>

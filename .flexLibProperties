@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
-  <includeClasses/>
+  <includeClasses>
+    <classEntry path="edu.isi.bmkeg.lapdftextModule.controller.InsertFTDRuleSetCommand"/>
+    <classEntry path="edu.isi.bmkeg.lapdftextModule.controller.InsertFTDRuleSetResultCommand"/>
+  </includeClasses>
   <includeResources/>
   <namespaceManifests/>
 </flexLibProperties>

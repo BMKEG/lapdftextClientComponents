@@ -11,7 +11,7 @@ package edu.isi.bmkeg.ftd.services
 	public interface IExtendedFtdService {		
 
 		function runRuleSet(ftd:FTD, ftdRuleSet:FTDRuleSet):void;
-
+		
 	}
 
 }

@@ -77,7 +77,7 @@
 			{
 				ruleFile = new FileReference();
 				ruleFile.addEventListener(Event.SELECT, selectHandler);
-				var fileFilter:FileFilter = new FileFilter("Drools Files: (*.drl, *.csv, *.xls)", "*.drl;*.csv;*.xls");
+				var fileFilter:FileFilter = new FileFilter("Drools Files: (*_drl.xls)", "*_drl.xls");
 				ruleFile.browse([fileFilter]);
 			}
 			
@@ -97,10 +97,8 @@
 				newRs.fileName = ruleFile.name;
 				var s:String = ruleFile.name;
 				s = s.substring(s.length-4, s.length);
-				if( s == ".drl" ) {
-					newRs.ruleBody = ruleFile.data.toString();
-				} else if( s == ".csv" || s == ".xls" ) {
-					newRs.excelRuleFile = ruleFile.data;	
+				if( s == "_drl.xls" ) {
+					newRs.excelFile = ruleFile.data;
 				} else {
 					return;
 				}
@@ -169,13 +167,9 @@
 				var dotPos:int = ruleFile.name.lastIndexOf(".");
 				var s:String = ruleFile.name;
 				s = s.substr(dotPos, s.length);
-				if( s == ".drl" ) {
+				if( s == "_drl.xls" ) {
 					
-					this.ruleSet.ruleBody = ruleFile.data.toString();
-					
-				} else if( s == ".csv" || s == ".xls" ) {
-					
-					this.ruleSet.excelRuleFile = ruleFile.data;
+					this.ruleSet.excelFile = ruleFile.data;
 					
 				} else {
 					

@@ -2,7 +2,10 @@ package edu.isi.bmkeg.lapdftextModule.controller
 {	
 	import edu.isi.bmkeg.pagedList.model.*;
 	
-	import edu.isi.bmkeg.ftd.rl.events.ListFTDPagedResultEvent;
+	import edu.isi.bmkeg.digitalLibrary.rl.events.*;
+	
+	import edu.isi.bmkeg.lapdftextModule.model.*;
+
 	import edu.isi.bmkeg.vpdmf.model.instances.LightViewInstance;
 	
 	import flash.events.Event;
@@ -11,15 +14,15 @@ package edu.isi.bmkeg.lapdftextModule.controller
 	
 	import org.robotlegs.mvcs.Command;
 	
-	public class ListFTDPagedResultCommand extends Command
+	public class ListArticleCitationPagedResultCommand extends Command
 	{
 		
 		[Inject]
-		public var event:ListFTDPagedResultEvent;
+		public var event:ListArticleCitationPagedResultEvent;
 		
 		[Inject]
-		public var listModel:PagedListModel;
-	
+		public var listModel:LapdftextPagedListModel;
+
 		override public function execute():void
 		{
 						
@@ -30,8 +33,8 @@ package edu.isi.bmkeg.lapdftextModule.controller
 				var o:Object = new Object();
 				o.vpdmfLabel = lvi.vpdmfLabel;
 				o.vpdmfId = lvi.vpdmfId;
-				var fields:Array = lvi.indexTupleFields.split(/\<\|\>/);
-				var tuple:Array = lvi.indexTuple.split(/\<\|\>/);
+				var fields:Array = lvi.indexTupleFields.split(/\{\|\}/);
+				var tuple:Array = lvi.indexTuple.split(/\{\|\}/);
 					
 				for(var i:int=0; i<fields.length; i++) {
 					var f:String = fields[i] as String;
@@ -44,6 +47,11 @@ package edu.isi.bmkeg.lapdftextModule.controller
 					
 				l.addItem(o);
 				
+			}
+			
+			if( l.length == 0 ) {
+				listModel.clear();
+				return;
 			}
 			
 			if( event.offset == 0 ) {
