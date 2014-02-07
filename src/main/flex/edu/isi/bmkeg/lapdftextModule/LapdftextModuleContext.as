@@ -189,15 +189,19 @@ package edu.isi.bmkeg.lapdftextModule
 				AddRuleFileToJournalEpochResultCommand);
 
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			// Digital Libraray Functions
-			
-			commandMap.mapEvent(
-				ListArticleCitationPagedEvent.LIST_ARTICLECITATION_PAGED, 
+			// Run a paged list query for articles in the target corpus
+			commandMap.mapEvent(ListArticleCitationPagedEvent.LIST_ARTICLECITATION_PAGED, 
 				ListArticleCitationPagedCommand);
-			
-			commandMap.mapEvent(
-				ListArticleCitationPagedResultEvent.LIST_ARTICLECITATION_PAGED_RESULT, 
+			commandMap.mapEvent(ListArticleCitationPagedResultEvent.LIST_ARTICLECITATION_PAGED_RESULT, 
 				ListArticleCitationPagedResultCommand);
+			commandMap.mapEvent(CountArticleCitationResultEvent.COUNT_ARTICLECITATION_RESULT, 
+				CountArticleCitationResultCommand);
+			commandMap.mapEvent(PagedListRetrievePageEvent.PAGEDLIST_RETRIEVE_PAGE
+				+ LapdftextPagedListModel.LIST_ID, 
+				LapdfTextPagedListRetrievePageCommand);
+			commandMap.mapEvent(CountPagedListLengthEvent.COUNT_PAGED_LIST_LENGTH
+				+LapdftextPagedListModel.LIST_ID, 
+				CountArticleCitationPagedListCommand);
 			
 			commandMap.mapEvent(
 				FindArticleCitationByIdEvent.FIND_ARTICLECITATION_BY_ID, 

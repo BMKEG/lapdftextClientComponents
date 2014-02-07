@@ -75,7 +75,7 @@ package edu.isi.bmkeg.lapdftextModule.model
 		// The text of the current PDF file expressed as a PMC file.
 		public var pmcHtml:String;
 
-		[Embed(source="edu/isi/bmkeg/digitalLibrary/Journal.txt",
+		[Embed(source="/edu/isi/bmkeg/digitalLibrary/Journal.txt",
 				mimeType="application/octet-stream")]
 		private var JournalTextFileClass : Class;
 		
