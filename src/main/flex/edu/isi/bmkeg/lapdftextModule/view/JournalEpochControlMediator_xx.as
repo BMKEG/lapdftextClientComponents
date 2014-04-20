@@ -20,7 +20,7 @@ package edu.isi.bmkeg.lapdftextModule.view
 	
 	import org.robotlegs.mvcs.Mediator;
 	
-	public class JournalEpochControlMediator extends Mediator
+	public class JournalEpochControlMediator_xx extends Mediator
 	{
 		[Inject]
 		public var view:JournalEpochControl;
@@ -41,6 +41,10 @@ package edu.isi.bmkeg.lapdftextModule.view
 				ListExtendedJournalEpochsResultEvent.LIST_EXTENDED_JOURNAL_EPOCHS_RESULT, 
 				listCorpusResultHandler);
 
+			addViewListener(
+				RunRulesOverAllEpochsEvent.RUN_RULES_OVER_ALL_EPOCHS, 
+				dispatch);
+			
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			// list the Rule files. 
 			addViewListener(
@@ -108,7 +112,9 @@ package edu.isi.bmkeg.lapdftextModule.view
 		public function findFTDRuleByIdResultHandler(event:FindFTDRuleSetByIdResultEvent):void {
 			view.updownButtons.fileName = event.object.fileName;
 			
-			view.updownButtons.fileData = event.object.excelFile;
+			// Note the data for the rule files stay on the server once it's uploaded.
+			//view.updownButtons.fileData = event.object.excelFile;
+			
 			view.updownButtons.fileNameBox.styleName = 'active';
 			view.updownButtons.clearButton.enabled = true;
 			
@@ -208,38 +214,6 @@ package edu.isi.bmkeg.lapdftextModule.view
 			this.dispatch( new ListArticleCitationPagedEvent(acQ, 0, 300) );		
 		}
 
-		private function uploadFTDRuleFile(uploadCompleteEvent:UploadCompleteEvent):void {
-						
-			var ruleFile:FileReference = uploadCompleteEvent.file;
-			
-			var newRs:FTDRuleSet = new FTDRuleSet();
-			newRs.fileName = ruleFile.name;
-			var s:String = ruleFile.name;
-			s = s.substring(s.length-8, s.length);
-			var rsName:String = ruleFile.name.substr(0,ruleFile.name.length-4);
-			newRs.rsName = rsName;
-
-			if( s == "_drl.xls" ) {	
-				newRs.excelFile = ruleFile.data;
-			} else {
-				return;
-			}
-			
-			var isNew:Boolean = true;
-			for each (var rsLabel:LightViewInstance in model.ruleSetList) {
-				if( rsLabel.vpdmfLabel.substr(0,newRs.rsName.length) == newRs.rsName ) {
-					newRs.vpdmfId = rsLabel.vpdmfId;
-					isNew = false;
-				}
-			}
-
-			if( isNew )
-				this.dispatch( new InsertFTDRuleSetEvent(newRs) );
-			else 
-				this.dispatch( new UpdateFTDRuleSetEvent(newRs) );
-	
-		}
-
 		private function deleteFTDRuleFile(clearUpDownloadEvent:ClearUpdownloadEvent):void {
 			
 			var rs:FTDRuleSet = model.ruleSet;
@@ -252,6 +226,24 @@ package edu.isi.bmkeg.lapdftextModule.view
 			this.dispatch(ev2);
 			
 		}
+
+		private function uploadFTDRuleFile(uploadCompleteEvent:UploadCompleteEvent):void {
+			
+			var ruleFile:FileReference = uploadCompleteEvent.file;
+			
+			var newRs:FTDRuleSet = new FTDRuleSet();
+			newRs.fileName = ruleFile.name;
+			var s:String = ruleFile.name;
+			s = s.substring(s.length-8, s.length);
+			var rsName:String = ruleFile.name.substr(0,ruleFile.name.length-4);
+			newRs.rsName = rsName;
+			
+			var event:UploadFTDRuleSetEvent = new UploadFTDRuleSetEvent(ruleFile.data, newRs);
+			
+			this.dispatch( event );
+			
+		}
+
 		
 	}
 	

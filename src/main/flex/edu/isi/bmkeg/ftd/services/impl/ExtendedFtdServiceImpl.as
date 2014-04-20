@@ -21,6 +21,8 @@ package edu.isi.bmkeg.ftd.services.impl
 
 	import edu.isi.bmkeg.utils.dao.*;
 
+	import flash.utils.ByteArray;
+	
 	public class ExtendedFtdServiceImpl extends Actor implements IExtendedFtdService {
 
 		private var _server:IExtendedFtdServer;
@@ -70,15 +72,29 @@ package edu.isi.bmkeg.ftd.services.impl
 			token.addResponder(synRes);
 		}
 		
-		// ~~~~~~~~~~~~~~~~~~~
-		// result handlers
-		// ~~~~~~~~~~~~~~~~~~~
 		private function runRuleSetResultHandler(event:ResultEvent, token:Object):void
 		{
 			var id:Number = event.result as Number;
 			dispatch(new RunRuleSetCompleteEvent(id));
 		}
 
+		// ~~~~~~~~~~~~~~~~~~~
+
+		public function uploadFtdRuleSet(data:ByteArray, ftdRuleSet:FTDRuleSet):void {
+			server.uploadFtdRuleSet.cancel();
+			var token:AsyncToken = server.uploadFtdRuleSet.send(data, ftdRuleSet);
+			var synRes:AsyncResponder = new AsyncResponder(
+				uploadFtdRuleSetResultHandler,
+				asyncResponderFailHandler);
+			token.addResponder(synRes);
+		}
+		
+		private function uploadFtdRuleSetResultHandler(event:ResultEvent, token:Object):void
+		{
+			dispatch(new UploadFTDRuleSetResultEvent());
+		}
+
+		
 
 	}
 

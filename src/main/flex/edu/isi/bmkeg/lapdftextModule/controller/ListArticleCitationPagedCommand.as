@@ -33,8 +33,18 @@ package edu.isi.bmkeg.lapdftextModule.controller
 				event.object.journal = new Journal_qo()
 			}
 			
-			event.object.journal.abbr = "<vpdmf-sort-0>"
-			event.object.volume = "<vpdmf-sort-1>"
+			if( event.object.journal.abbr != null) {
+				event.object.journal.abbr += "<vpdmf-sort-0>"
+			} else {
+				event.object.journal.abbr = "<vpdmf-sort-0>"				
+			}
+
+			if( event.object.volValue != null) {
+				event.object.volValue += "<vpdmf-sort-1>"
+			} else {
+				event.object.volValue = "<vpdmf-sort-1>"
+			}
+
 
 			service.listArticleCitationPaged(event.object, event.offset, event.cnt);
 			

@@ -32,6 +32,11 @@ package edu.isi.bmkeg.ftd.services.serverInteraction.impl
 			return getOperation("runRuleSet");
 		}
 
+		public function get uploadFtdRuleSet():AbstractOperation
+		{
+			return getOperation("uploadFtdRuleSet");
+		}
+		
 	}
 
 }

@@ -97,11 +97,6 @@
 				newRs.fileName = ruleFile.name;
 				var s:String = ruleFile.name;
 				s = s.substring(s.length-4, s.length);
-				if( s == "_drl.xls" ) {
-					newRs.excelFile = ruleFile.data;
-				} else {
-					return;
-				}
 				
 				//
 				// need to read the file and description from this object,
@@ -114,7 +109,7 @@
 				
 				} else {
 
-					var ev2:UploadRuleSetEvent = new UploadRuleSetEvent(newRs);
+					var ev2:UploadFTDRuleSetEvent = new UploadFTDRuleSetEvent(ruleFile.data, newRs);
 					this.dispatchEvent(ev2);
 
 				}
@@ -161,26 +156,6 @@
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			// LOADING THE RULES FROM THE DATABASE.
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			private function updateRules():void
-			{
-				
-				var dotPos:int = ruleFile.name.lastIndexOf(".");
-				var s:String = ruleFile.name;
-				s = s.substr(dotPos, s.length);
-				if( s == "_drl.xls" ) {
-					
-					this.ruleSet.excelFile = ruleFile.data;
-					
-				} else {
-					
-					return;
-					
-				}	
-				
-				var ev:UpdateFTDRuleSetEvent = new UpdateFTDRuleSetEvent(this.ruleSet);
-				this.dispatchEvent(ev);
-
-			}
 			
 			private function revert():void
 			{

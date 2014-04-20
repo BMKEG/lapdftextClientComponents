@@ -6,6 +6,8 @@ package edu.isi.bmkeg.ftd.services.serverInteraction
 	public interface IExtendedFtdServer {
 
 		function get runRuleSet():AbstractOperation;
+		
+		function get uploadFtdRuleSet():AbstractOperation;				
 
 	}
 

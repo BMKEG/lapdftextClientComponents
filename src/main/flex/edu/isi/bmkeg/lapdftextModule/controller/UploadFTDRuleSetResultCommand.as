@@ -2,6 +2,7 @@ package edu.isi.bmkeg.lapdftextModule.controller
 {
 	
 	import edu.isi.bmkeg.ftd.model.qo.*;
+	import edu.isi.bmkeg.ftd.events.*;
 	import edu.isi.bmkeg.ftd.rl.events.*;
 	import edu.isi.bmkeg.lapdftextModule.model.LapdftextModel;
 	
@@ -9,10 +10,10 @@ package edu.isi.bmkeg.lapdftextModule.controller
 	
 	import org.robotlegs.mvcs.Command;
 	
-	public class UpdateFTDRuleSetResultCommand extends Command
+	public class UploadFTDRuleSetResultCommand extends Command
 	{
 		[Inject]
-		public var event:UpdateFTDRuleSetResultEvent;
+		public var event:UploadFTDRuleSetResultEvent;
 		
 		[Inject]
 		public var model:LapdftextModel;

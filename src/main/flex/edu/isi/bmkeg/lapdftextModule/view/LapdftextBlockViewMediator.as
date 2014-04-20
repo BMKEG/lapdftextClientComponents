@@ -68,9 +68,6 @@ package edu.isi.bmkeg.lapdftextModule.view
 			addViewListener(RunRuleSetOnArticleCitationEvent.RUN_RULE_SET_ON_ARTICLE_CITATION, 
 				runRules);
 			
-			addViewListener(RetrievePmcHtmlEvent.RETRIEVE_PMC_HTML, 
-				loadHtml);
-
 			addContextListener(
 				FindArticleCitationByIdResultEvent.FIND_ARTICLECITATIONBY_ID_RESULT, 
 				buildBitmapsFromFindByIdResult);
@@ -82,6 +79,18 @@ package edu.isi.bmkeg.lapdftextModule.view
 			addContextListener(
 				GenerateRuleFileFromLapdfResultEvent.GENERATE_RULE_FILE_FROM_LAPDF_RESULT, 
 				updateCsv);
+			
+			addContextListener(LoadSwfResultEvent.LOAD_SWF_RESULT, 
+				swfFileLoadResult);
+			
+			addContextListener(LoadXmlResultEvent.LOAD_XML_RESULT, 
+				xmlFileLoadResult);
+
+			addContextListener(LoadHtmlResultEvent.LOAD_HTML_RESULT, 
+				loadHtmlResult);
+			
+			addViewListener(RetrievePmcHtmlEvent.RETRIEVE_PMC_HTML, 
+				loadHtmlResult);
 
 			this.dispatch( new ListTermViewsEvent() );
 			
@@ -161,40 +170,18 @@ package edu.isi.bmkeg.lapdftextModule.view
 			//
 			// First, get the swf file on the server for the images
 			//
-			var url:String = "/" + Utils.getWebAppContext();
-								
-			url = Utils.getServerProt() + "/" + url + 
-				"/rest/load?swfFile=" + vpdmfId + ".swf";
-		
-			var ldr:Loader = new Loader(); 
-			ldr.contentLoaderInfo.addEventListener(Event.COMPLETE,swfFileLoadResult);  
-			var fldr:ForcibleLoader = new ForcibleLoader(ldr);
-			fldr.load(new URLRequest(url));
+			this.dispatch( new LoadSwfEvent(vpdmfId) );
 			
 			//
 			// Next, get the xml for the page boxes
 			//
-			url = "/" + Utils.getWebAppContext();
-			
-			url = Utils.getServerProt() + "/" + url + 
-				"/rest/load?xmlFile=" + vpdmfId + ".xml";
-			
-			var urlLdr:URLLoader = new URLLoader(); 
-			urlLdr.addEventListener(Event.COMPLETE,xmlFileLoadResult);  
-			urlLdr.load(new URLRequest(url));
-			
+			this.dispatch( new LoadXmlEvent(vpdmfId) );
+				
 			//
 			// Finally, get the html for the text of the document 
 			// (this is the end product that we will annotate)
 			//
-			url = "/" + Utils.getWebAppContext();
-			
-			url = Utils.getServerProt() + "/" + url + 
-				"/rest/load?html=" + vpdmfId + ".html";
-			
-			urlLdr = new URLLoader(); 
-			urlLdr.addEventListener(Event.COMPLETE, htmlFileLoadResult);  
-			urlLdr.load(new URLRequest(url));
+			this.dispatch( new LoadHtmlEvent(vpdmfId) );
 			
 			view.bitmaps = new ArrayCollection();
 			
@@ -216,12 +203,9 @@ package edu.isi.bmkeg.lapdftextModule.view
 			
 		}
 
-		private function swfFileLoadResult(event:Event):void {
-
-			if( !event.target )
-				return;
+		private function swfFileLoadResult(event:LoadSwfResultEvent):void {
 			
-			var clip:MovieClip = event.currentTarget.content as MovieClip;
+			var clip:MovieClip = event.swf;
 			
 			var frames:int = clip.totalFrames;
 			
@@ -243,12 +227,9 @@ package edu.isi.bmkeg.lapdftextModule.view
 			
 		}
 		
-		private function xmlFileLoadResult(event:Event):void {
+		private function xmlFileLoadResult(event:LoadXmlResultEvent):void {
 			
-			if( !event.target )
-				return;
-			
-			xml = XML(event.currentTarget.data);
+			xml = XML(event.xml);
 			
 			//
 			// Build the spatial index of the PDF content here. 
@@ -318,26 +299,26 @@ package edu.isi.bmkeg.lapdftextModule.view
 		
 		}
 		
-		private function htmlFileLoadResult(event:Event):void {
+		
+		private function htmlFileLoadError(event:ErrorEvent):void {
 			
-			if( event.currentTarget == null )
-				return;
-			
-			this.dispatch( 
-				new HtmlTextLoadedFromPdfEvent(event.currentTarget.data)
-			);
+			trace("Text is not available for this document: " + event);
 			
 		}
 		
-		private function loadHtml(event:Event):void {
+		private function loadHtmlResult(event:Event):void {
 
 			var htmlString:String = model.pmcHtml;
 			
-			if( htmlString != null ) {
+			if( htmlString != null && view.lapdfTextControl != null) {
 				view.lapdfTextControl.textFlow = TextConverter.importToFlow(
 						htmlString, TextConverter.TEXT_FIELD_HTML_FORMAT);
 			}
 			
+		}
+		
+		private function eventDrivenRedraw(event:Event):void {
+			this.forceRedraw();
 		}
 		
 		//

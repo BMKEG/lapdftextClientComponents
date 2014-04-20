@@ -8,10 +8,15 @@ package edu.isi.bmkeg.ftd.services
 	import edu.isi.bmkeg.vpdmf.model.ViewTable;
 	import edu.isi.bmkeg.vpdmf.model.qo.ViewTable_qo;
 
+	import flash.utils.ByteArray;
+
 	public interface IExtendedFtdService {		
 
 		function runRuleSet(ftd:FTD, ftdRuleSet:FTDRuleSet):void;
-		
+
+		function uploadFtdRuleSet(data:ByteArray, ftdRuleSet:FTDRuleSet):void;
+
+
 	}
 
 }

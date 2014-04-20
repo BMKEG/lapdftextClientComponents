@@ -50,7 +50,7 @@ package edu.isi.bmkeg.lapdftextModule
 		{		
 			
 			mediatorMap.mapView(ArticleList, ArticleListMediator);
-			mediatorMap.mapView(JournalEpochControl, JournalEpochControlMediator);
+			mediatorMap.mapView(JournalEpochControl, JournalEpochControlMediator_xx);
 			mediatorMap.mapView(LapdftextBlockView, LapdftextBlockViewMediator);
 			//mediatorMap.mapView(FTDTextView, FTDTextViewMediator);
 			//mediatorMap.mapView(FTDBlocksView, FTDBlocksViewMediator);
@@ -149,21 +149,13 @@ package edu.isi.bmkeg.lapdftextModule
 			//commandMap.mapEvent(RunRuleSetCompleteEvent.RUN_RULE_SET_COMPLETE, RunRuleSetCompleteCommand);
 	
 			commandMap.mapEvent(
-				InsertFTDRuleSetEvent.INSERT_FTDRULESET, 
-				InsertFTDRuleSetCommand);
+				UploadFTDRuleSetEvent.UPLOAD_FTD_RULE_SET, 
+				UploadFTDRuleSetCommand);
 			
 			commandMap.mapEvent(
-				InsertFTDRuleSetResultEvent.INSERT_FTDRULESET_RESULT, 
-				InsertFTDRuleSetResultCommand);
-			
-			commandMap.mapEvent(
-				UpdateFTDRuleSetEvent.UPDATE_FTDRULESET, 
-				UpdateFTDRuleSetCommand);
-			
-			commandMap.mapEvent(
-				UpdateFTDRuleSetResultEvent.UPDATE_FTDRULESET_RESULT, 
-				UpdateFTDRuleSetResultCommand);
-			
+				UploadFTDRuleSetResultEvent.UPLOAD_FTD_RULE_SET_RESULT, 
+				UploadFTDRuleSetResultCommand);
+						
 			commandMap.mapEvent(
 				DeleteFTDRuleSetByIdEvent.DELETE_FTDRULESET_BY_ID, 
 				DeleteFTDRuleSetByIdCommand);
@@ -210,9 +202,6 @@ package edu.isi.bmkeg.lapdftextModule
 			commandMap.mapEvent(
 				FindArticleCitationByIdResultEvent.FIND_ARTICLECITATIONBY_ID_RESULT, 
 				FindArticleCitationByIdResultCommand);
-			
-			commandMap.mapEvent(LoadingPdfSwfCompleteEvent.LOADING_PDF_SWF_COMPLETE, 
-				LoadingPdfSwfCompleteCommand);
 
 			commandMap.mapEvent(
 				RetrieveFTDRuleSetForArticleCitationEvent.RETRIEVE_FTDRULESET_FOR_ARTICLE_CITATION, 
@@ -239,8 +228,34 @@ package edu.isi.bmkeg.lapdftextModule
 				RunRuleSetOnJournalEpochResultCommand);
 			
 			commandMap.mapEvent(
-				HtmlTextLoadedFromPdfEvent.HTML_TEXT_LOADED_FROM_PDF, 
-				HtmlTextLoadedFromPdfCommand);
+				RunRulesOverAllEpochsEvent.RUN_RULES_OVER_ALL_EPOCHS, 
+				RunRulesOverAllEpochsCommand);
+			
+			commandMap.mapEvent(
+				RunRulesOverAllEpochsResultEvent.RUN_RULES_OVER_ALL_EPOCHS_RESULT, 
+				RunRulesOverAllEpochsResultCommand);
+
+			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			// Load the swf
+			commandMap.mapEvent(LoadSwfEvent.LOAD_SWF, LoadSwfCommand);
+			commandMap.mapEvent(LoadSwfResultEvent.LOAD_SWF_RESULT, LoadSwfResultCommand);
+			
+			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			// Load the xml
+			commandMap.mapEvent(LoadXmlEvent.LOAD_XML, LoadXmlCommand);
+			commandMap.mapEvent(LoadXmlResultEvent.LOAD_XML_RESULT, LoadXmlResultCommand);
+			
+			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			// Load the pmcxml
+			commandMap.mapEvent(LoadPmcXmlEvent.LOAD_PMCXML, LoadPmcXmlCommand);
+			commandMap.mapEvent(LoadPmcXmlResultEvent.LOAD_PMCXML_RESULT, LoadPmcXmlResultCommand);
+			
+			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			// Load the html
+			commandMap.mapEvent(LoadHtmlEvent.LOAD_HTML, LoadHtmlCommand);
+			commandMap.mapEvent(LoadHtmlResultEvent.LOAD_HTML_RESULT, LoadHtmlResultCommand);
+			
+			
 /*  Fill these out 
 
 			commandMap.mapEvent(ClearCorpusEvent.CLEAR_CORPUS, ClearCorpusCommand);

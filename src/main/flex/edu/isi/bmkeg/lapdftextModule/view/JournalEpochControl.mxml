@@ -212,6 +212,11 @@
 				dispatchEvent(new ListArticleCitationPagedEvent(aQo, 0, 200));
 			}
 			
+			protected function runAllRulesControl_clickHandler(event:MouseEvent):void
+			{
+				this.dispatchEvent(new RunRulesOverAllEpochsEvent());					
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -239,6 +244,16 @@
 			</s:ArrayList>
 		</s:columns>
 	</s:DataGrid>
+
+	<s:HGroup>
+		<s:Spacer width="100%"/>
+		<s:Button id="runAllRulesControl"
+				  chromeColor="white"
+				  label="Run rules over all epochs ..."
+				  click="runAllRulesControl_clickHandler(event)"
+				  />	
+	</s:HGroup>
+	
 	
 	<s:Label top="10" fontSize="16" fontWeight="bold"
 			 horizontalCenter="0" text="Text Extraction Rule Files"/>
