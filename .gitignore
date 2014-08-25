@@ -5,3 +5,5 @@ target
 /.classpath
 /.project
 /target
+.DS_Store
+.history

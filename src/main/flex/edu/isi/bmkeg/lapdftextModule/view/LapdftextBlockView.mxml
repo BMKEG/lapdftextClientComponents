@@ -144,13 +144,6 @@
 			
 		]]>
 	</fx:Script>
-
-	<s:HGroup width="100%" verticalAlign="middle" >
-		<s:Label text="Assigned Rules:" fontWeight="bold" verticalAlign="middle" paddingTop="3"/>
-		<s:Label text="{ruleSet.fileName}" fontStyle="italic" paddingTop="3"/>
-		<!--<s:Button label="Reclassify Blocks..." click="rerunClassification(event);"/>
-		<s:Button label="Generate Rule File..." click="generateRuleFileFromLapdf(event);"/>-->
-	</s:HGroup>
 	
 	<s:HGroup width="100%">
 		<s:RadioButton label="Page Images" 
