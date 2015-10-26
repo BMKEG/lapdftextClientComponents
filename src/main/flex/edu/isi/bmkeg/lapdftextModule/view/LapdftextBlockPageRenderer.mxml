@@ -136,7 +136,7 @@
 					var st:SolidColorStroke = new SolidColorStroke();
 					st.color = 0xff0000;	
 					frgPageList = spark.components.List(this.owner);
-					var lapdftextBlockView:LapdftextBlockView = LapdftextBlockView(frgPageList.owner);
+					lapdftextBlockView = LapdftextBlockView(frgPageList.owner);
 					st.alpha = 1.0;
 					
 					var sf2:Number = this.imgWidth / bitmap.width * 2.0;
